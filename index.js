@@ -1,34 +1,32 @@
-// index.js
 import express from "express";
 import mongoose from "mongoose";
-import { shortUrl, getOriginalUrl } from "./controllers/url.js"; // Make sure this path is correct
-import bodyParser from "body-parser";
-import path from "path";
+import { shortUrl, getOriginalUrl } from "./Controllers/url.js";
 
 const app = express();
-const PORT = 3000;
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
-app.set("views", path.join(process.cwd(), "views"));
+app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb://localhost:27017/shorten",
-    {
-        dbName: "shorten",
-    }
-)
-    .then(() => { console.log("mongoo to DB"); })
-    .catch((err) => { console.log(err); })
+mongoose
+  .connect("mongodb://localhost:27017/shorten", {
+    dbName: "shorten",
+  })
+  .then(() => {
+    console.log("mongoo to DB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //rendering the ejs file
-app.get('/', (req, res) => {
-    res.render('index.ejs', { shortUrl: null });
-})   
+app.get("/", (req, res) => {
+  res.render("index.ejs", { shortUrl: null });
+});
 
-app.post("/shorten", shortUrl);
+// shorting url logic
+app.post("/short", shortUrl);
+
+// redirect to original url using short code :- dynamic routing
 app.get("/:shortCode", getOriginalUrl);
 
-
 const port = 3000;
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`server is running on port ${port}`));
