@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h1>URL Shortener Projects</h1>
-        <form action="">
+        <form action="short", method="post">
             <label for="longUrl">
                 Enter long URL:</label>
                 <input type="text" id="longUrl" name="longUrl" required>
@@ -17,7 +17,7 @@
                 </button>
         </form>
         <% if(shortUrl) { %>
-        <p>short Url: <a href="<%= shortUrl %>" target="_blank"></a>
+        <p>short Url: <a href="<%= shortUrl %>" target="_blank" />
             <%= shortUrl   %>
         </p> 
         <% } %>
